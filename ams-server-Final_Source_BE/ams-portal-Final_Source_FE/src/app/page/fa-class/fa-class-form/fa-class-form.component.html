@@ -1,0 +1,497 @@
+<h3>{{isEditing ? 'Update' : 'Create'}} Class</h3>
+<form nz-form [formGroup]="formData" (ngSubmit)="submitForm()">
+    <nz-collapse [nzBordered]="true" nzExpandIconPosition="right" nzAccordion>
+        <nz-collapse-panel *ngFor="let panel of panelGeneral" [nzHeader]="panel.name" [nzActive]="panel.active">
+            <div class="inner-form">
+                <div nz-row [nzGutter]="24">
+
+                    <!-- Class Code -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzFor="classCode">Class Code</nz-form-label>
+                            <nz-form-control nzErrorTip="This field is required!">
+                                <input nzRequired nz-input formControlName="classCode" type="text"
+                                       id="classCode"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <!-- Class Type -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzFor="classType">Class Type</nz-form-label>
+                            <nz-form-control nzErrorTip="This field is required!">
+                                <nz-select nzRequired id="classType" formControlName="classType"
+                                           nzPlaceHolder="Select class type" nzAllowClear>
+                                    <nz-option *ngFor="let option of classTypeOptions" [nzLabel]="option.label"
+                                               [nzValue]="option.value"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div nz-row [nzGutter]="24">
+
+                    <!-- Status -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzFor="classStatus">Status</nz-form-label>
+                            <nz-form-control nzErrorTip="This field is required!">
+                                <nz-select nzRequired id="classStatus" formControlName="classStatus"
+                                           nzPlaceHolder="Select class status" nzAllowClear>
+                                    <nz-option *ngFor="let option of classStatusOptions" [nzLabel]="option.label"
+                                               [nzValue]="option.value"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <!-- Planned Trainee Number -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzFor="plannedTraineeNo">Planned Trainee Number</nz-form-label>
+                            <nz-form-control nzErrorTip="This field is required!">
+                                <input nzRequired nz-input formControlName="plannedTraineeNo" type="number"
+                                       id="plannedTraineeNo"/>
+                                <div *ngIf="showError && formData.errors?.['traineeNumberError']"
+                                     class="color-validate">
+                                    The planned trainee number must be greater than or equal to the accepted trainee
+                                    number, which must be greater than or equal to the actual trainee number.
+                                </div>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div nz-row [nzGutter]="24">
+
+                    <!-- Accepted Trainee Number -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzFor="acceptedTraineeNo">Accepted Trainee Number</nz-form-label>
+                            <nz-form-control nzErrorTip="This field is required!">
+                                <input nzRequired nz-input formControlName="acceptedTraineeNo" type="number"
+                                       id="acceptedTraineeNo"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <!-- Class Admin -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzFor="classAdmin">Class Admin</nz-form-label>
+                            <nz-form-control nzErrorTip="This field is required!">
+                                <nz-select id="classAdmin" nzShowSearch nzAllowClear nzPlaceHolder="Select class admin"
+                                           formControlName="classAdmin">
+                                    <nz-option *ngFor="let option of classAdminList" [nzLabel]="option.account"
+                                               [nzValue]="option.account"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div nz-row [nzGutter]="24">
+
+                    <!-- Expected Start Date -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzRequired>Expected Start Date</nz-form-label>
+                            <nz-form-control nzErrorTip="This field is required!">
+                                <nz-date-picker class="block" formControlName="expectedStartDate"></nz-date-picker>
+                                <div *ngIf=" showError && formData.errors?.['expectedDateError']"
+                                     class="color-validate">
+                                    Expected End Date must be after Expected Start Date.
+                                </div>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <!-- Expected End Date -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzRequired>Expected End Date</nz-form-label>
+                            <nz-form-control nzErrorTip="This field is required!">
+                                <nz-date-picker class="block" formControlName="expectedEndDate"></nz-date-picker>
+
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div nz-row [nzGutter]="24">
+
+                    <!-- Location -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzFor="location">Location</nz-form-label>
+                            <nz-form-control nzErrorTip="This field is required!">
+                                <nz-select nzRequired id="location" formControlName="location"
+                                           nzPlaceHolder="Select class location" nzAllowClear>
+                                    <nz-option *ngFor="let option of classLocationOptions" [nzLabel]="option.label"
+                                               [nzValue]="option.value"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <!-- Detail location -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzFor="detailLocation">Detail location</nz-form-label>
+                            <nz-form-control>
+                                <input nz-input formControlName="detailLocation" type="text" id="detailLocation"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div nz-row [nzGutter]="24">
+
+                    <!-- Budget Code -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzFor="budgetCode">Budget Code</nz-form-label>
+                            <nz-form-control nzErrorTip="This field is required!">
+                                <nz-select nzRequired id="budgetCode" formControlName="budgetCode"
+                                           nzPlaceHolder="Select class location" nzAllowClear>
+                                    <nz-option *ngFor="let option of classBudgetCode" [nzLabel]="option.label"
+                                               [nzValue]="option.value"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <!-- Estimate Budget -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzFor="estimatedBudget">Estimate Budget</nz-form-label>
+                            <nz-form-control nzErrorTip="This field is required!">
+                                <input nzRequired nz-input formControlName="estimatedBudget" type="number"
+                                       id="estimatedBudget"/>
+                                <div *ngIf="showError && formData.errors?.['positiveNumberBudgetError']"
+                                     class="color-validate">
+                                    The estimate budget must be a positive number.
+                                </div>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div nz-row [nzGutter]="24">
+
+                    <!-- Learning Path -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label>Learning Path</nz-form-label>
+                            <nz-form-control>
+                                <input nz-input type="file" (change)="handleFileInputLearningPath($event)"
+                                       [multiple]="false" accept=".xlsx, .xls"/>
+                                <div *ngIf="showFileSizeError" class="error-message-excel-file">File size must be 5MB or
+                                    smaller.
+                                </div>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </div>
+        </nz-collapse-panel>
+    </nz-collapse>
+
+    <nz-collapse [nzBordered]="true" nzExpandIconPosition="right" nzAccordion>
+        <nz-collapse-panel *ngFor="let panel of panelDetail" [nzHeader]="panel.name" [nzActive]="panel.active">
+            <div class="inner-form">
+                <div nz-row [nzGutter]="24">
+
+                    <!-- Subject Type -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzFor="subjectType">Subject Type</nz-form-label>
+                            <nz-form-control>
+                                <nz-select id="subjectType" formControlName="subjectType"
+                                           nzPlaceHolder="Select Subject Type" nzAllowClear>
+                                    <nz-option *ngFor="let option of classDetailSubjectType" [nzLabel]="option.label"
+                                               [nzValue]="option.value"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <!-- Sub-Subject Type -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzFor="subSubjectType">Sub-Subject Type</nz-form-label>
+                            <nz-form-control>
+                                <nz-select id="subSubjectType" formControlName="subSubjectType"
+                                           nzPlaceHolder="Select Sub-Subject Type" nzAllowClear>
+                                    <nz-option *ngFor="let option of classDetailSubSubjectType"
+                                               [nzLabel]="option.label"
+                                               [nzValue]="option.value"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row [nzGutter]="24">
+
+                    <!-- Delivery Type -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzFor="deliveryType">Delivery Type</nz-form-label>
+                            <nz-form-control>
+                                <nz-select id="deliveryType" formControlName="deliveryType"
+                                           nzPlaceHolder="Select subject type" nzAllowClear>
+                                    <nz-option *ngFor="let option of classDetailDeliveryType" [nzLabel]="option.label"
+                                               [nzValue]="option.value"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <!-- Format Type -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzFor="formatType">Format Type</nz-form-label>
+                            <nz-form-control>
+                                <nz-select id="formatType" formControlName="formatType"
+                                           nzPlaceHolder="Select Format Type" nzAllowClear>
+                                    <nz-option *ngFor="let option of classDetailFormatType" [nzLabel]="option.label"
+                                               [nzValue]="option.value"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row [nzGutter]="24">
+
+                    <!-- Scope -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzFor="scope">Scope</nz-form-label>
+                            <nz-form-control>
+                                <nz-select id="scope" formControlName="scope" nzPlaceHolder="Select Scope" nzAllowClear>
+                                    <nz-option *ngFor="let option of classDetailScope" [nzLabel]="option.label"
+                                               [nzValue]="option.value"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <!-- Supplier/Partner -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzFor="supplier">Supplier/Partner</nz-form-label>
+                            <nz-form-control>
+                                <input nz-input formControlName="supplier" type="text" id="supplier"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row [nzGutter]="24">
+
+                    <!-- Actual Start Date -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label>Actual Start Date</nz-form-label>
+                            <nz-form-control>
+                                <nz-date-picker class="block" formControlName="actualStartDate"></nz-date-picker>
+
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <!-- Actual End Date -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label>Actual End Date</nz-form-label>
+                            <nz-form-control>
+                                <nz-date-picker class="block" formControlName="actualEndDate"></nz-date-picker>
+                                <div *ngIf="showError && formData.errors?.['actualDateError']"
+                                     class="color-validate">
+                                    Expected End Date must be after Expected Start Date.
+                                </div>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row [nzGutter]="24">
+
+                    <!-- Master Trainer -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzFor="masterTrainer">Master Trainer</nz-form-label>
+                            <nz-form-control>
+                                <nz-select id="masterTrainer" nzShowSearch nzAllowClear nzPlaceHolder="Select trainer"
+                                           formControlName="masterTrainer">
+                                    <nz-option *ngFor="let option of trainerList" [nzLabel]="option.account"
+                                               [nzValue]="option.account"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <!-- Trainer -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzFor="trainer">Trainer</nz-form-label>
+                            <nz-form-control>
+                                <nz-select id="trainer" nzShowSearch nzAllowClear nzPlaceHolder="Select trainer"
+                                           formControlName="trainer">
+                                    <nz-option *ngFor="let option of trainerList" [nzLabel]="option.account"
+                                               [nzValue]="option.account"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row [nzGutter]="24">
+
+                    <!-- Curriculum -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzFor="curriculum">Curriculum</nz-form-label>
+                            <nz-form-control>
+                                <input nz-input type="file" (change)="handleFileInputCurriculum($event)"
+                                       [multiple]="false" accept=".xlsx, .xls"/>
+                                <div *ngIf="showFileSizeError" class="error-message-excel-file">File size must be 5MB or
+                                    smaller.
+                                </div>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <!-- Remarks -->
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzFor="remarks">Remarks</nz-form-label>
+                            <nz-form-control>
+                                <input nz-input formControlName="remarks" type="text" id="remarks"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </div>
+        </nz-collapse-panel>
+    </nz-collapse>
+
+    <form [formGroup]="budgetForm">
+        <nz-collapse [nzBordered]="true" nzExpandIconPosition="right" nzAccordion>
+            <nz-collapse-panel *ngFor="let panel of panelBudget" [nzHeader]="panel.name" [nzActive]="panel.active">
+                <div class="inner-form">
+                    <div nz-row [nzGutter]="24">
+
+                        <!-- Total -->
+                        <div nz-col [nzSpan]="12">
+                            <nz-form-item>
+                                <nz-form-label nzFor="total">Total</nz-form-label>
+                                <nz-form-control>
+                                    <input class="ant-input-disabled" nz-input formControlName="total" type="number"
+                                           min="0"
+                                           id="total" readonly/>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+
+                        <!-- Over Budget -->
+                        <div nz-col [nzSpan]="12">
+                            <nz-form-item>
+                                <nz-form-label nzFor="classBudgetOverBudget">Over Budget</nz-form-label>
+                                <nz-form-control>
+                                    <input class="ant-input-disabled" nz-input formControlName="classBudgetOverBudget"
+                                           type="text" id="classBudgetOverBudget" [value]="getOverBudgetStatus()"
+                                           readonly/>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                </div>
+
+                <nz-table [nzData]="listOfData" [nzFrontPagination]="false" nzBordered>
+                    <thead>
+                    <tr>
+                        <th>
+                            <button nz-button (click)="addBudgetRow()" nzType="primary">Add</button>
+                        </th>
+                        <th>Item</th>
+                        <th>Unit</th>
+                        <th>Unit Expense</th>
+                        <th>Quantity</th>
+                        <th>Amount</th>
+                        <th>Tax</th>
+                        <th>Sum</th>
+                    </tr>
+                    </thead>
+                    <tbody formArrayName="budgetData">
+                    <ng-container *ngFor="let data of budgetData.controls; let i = index">
+                        <tr [formGroupName]="i" class="editable-row">
+                            <td>
+                                <button nzDanger nz-button nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+                                        [nzType]="'primary'" (nzOnConfirm)="deleteBudgetRow(i)">
+                                    <span nz-icon nzType="delete"></span>
+                                </button>
+                            </td>
+                            <td><input nz-input formControlName="item" type="text" id="item"/></td>
+                            <td><input class="ant-input-disabled" nz-input
+                                       formControlName="unit" type="text" id="unit"
+                                       readonly placeholder="h"/></td>
+                            <td>
+                                <input
+                                    nz-input
+                                    formControlName="unitExpense"
+                                    type="number"
+                                    min="0"
+                                    id="unitExpense"
+                                    (input)="onInputChange(i)"/>
+                            </td>
+                            <td>
+                                <input
+                                    nz-input
+                                    formControlName="quantity"
+                                    type="number"
+                                    min="0"
+                                    id="quantity"
+                                    (input)="onInputChange(i)"/>
+                            </td>
+                            <td>
+                                <input class="ant-input-disabled"
+                                       nz-input
+                                       formControlName="amount"
+                                       type="number"
+                                       min="0"
+                                       id="amount"
+                                       readonly/>
+                            </td>
+                            <td><input nz-input formControlName="tax" max="100" type="number" min="0" id="tax"
+                                       (input)="onInputChange(i)"/></td>
+                            <td><input class="ant-input-disabled" nz-input formControlName="sum" type="number" min="0"
+                                       id="sum" readonly/></td>
+                        </tr>
+                    </ng-container>
+                    </tbody>
+                </nz-table>
+            </nz-collapse-panel>
+        </nz-collapse>
+    </form>
+
+    <nz-collapse [nzBordered]="true" nzExpandIconPosition="right" nzAccordion>
+        <nz-collapse-panel *ngFor="let panel of panelAudit" [nzHeader]="panel.name" [nzActive]="panel.active">
+        </nz-collapse-panel>
+    </nz-collapse>
+    <br>
+    <nz-form-control [nzXs]="{ span: 12, offset: 0 }"
+                     [nzSm]="{ span: 12, offset: 0 }">
+        <nz-button-group>
+            <nz-space>
+                <button nzSize="large" [nzGhost]="true" *nzSpaceItem nz-button nzType="primary">
+                    <a routerLink="{{classId ? '/app/fa-class/view/' + classId : '/app/fa-class'}}">
+                        Back </a>
+                </button>
+                <button nzSize="large" *nzSpaceItem nz-button nzType="primary" (click)="onSubmit()">
+                    Submit
+                </button>
+            </nz-space>
+        </nz-button-group>
+    </nz-form-control>
+</form>
+
+

@@ -1,0 +1,167 @@
+<h3 nz-row nzAlign="middle" nz-typography><span nz-icon nzType="database" nzTheme="outline" class="pe-2"></span>Class
+    Listing</h3>
+<nz-divider></nz-divider>
+<!--Search Group-->
+<nz-collapse [nzBordered]="true" nzExpandIconPosition="right">
+    <nz-collapse-panel [nzActive]="true" nzHeader="Search Area" [nzExpandedIcon]>
+        <div nz-row [nzGutter]="24">
+
+            <!-- Location -->
+            <div nz-col [nzSpan]="8">
+                <nz-form-item>
+                    <nz-form-label>Location</nz-form-label>
+                    <nz-form-control>
+                        <nz-select [(ngModel)]="queryParam.location" nzShowSearch nzAllowClear class="block"
+                                   nzPlaceHolder="Select Location">
+                            <nz-option *ngFor="let option of classLocationOptions"
+                                       [nzLabel]="option.label"
+                                       [nzValue]="option.value"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <!-- Class Type -->
+            <div nz-col [nzSpan]="8">
+                <nz-form-item>
+                    <nz-form-label>Class Type</nz-form-label>
+                    <nz-form-control>
+                        <nz-select [(ngModel)]="queryParam.classType" nzShowSearch nzAllowClear class="block"
+                                   nzPlaceHolder="Select Class Type">
+                            <nz-option *ngFor="let option of classTypeOptions"
+                                       [nzLabel]="option.label"
+                                       [nzValue]="option.value"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <!-- Status -->
+            <div nz-col [nzSpan]="8">
+                <nz-form-item>
+                    <nz-form-label>Status</nz-form-label>
+                    <nz-form-control>
+                        <nz-select [(ngModel)]="queryParam.classStatus" nzShowSearch nzAllowClear class="block"
+                                   nzPlaceHolder="Select Status">
+                            <nz-option *ngFor="let option of classStatusOptions"
+                                       [nzLabel]="option.label"
+                                       [nzValue]="option.value"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="24">
+            <!-- From Date -->
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label>From Date</nz-form-label>
+                    <nz-form-control>
+                        <nz-date-picker class="block" [(ngModel)]="actualStartDate"
+                                        [nzFormat]="DATE_FORMAT"></nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <!-- To Date -->
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label>To Date</nz-form-label>
+                    <nz-form-control>
+                        <nz-date-picker class="block" [(ngModel)]="actualEndDate"
+                                        [nzFormat]="DATE_FORMAT"></nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="24">
+            <!--Button Group-->
+            <div nz-col [nzSpan]="8">
+                <nz-button-group>
+                    <nz-space>
+                        <button *nzSpaceItem nzSearch nz-button [nzType]="'primary'" (click)="onSearch()">
+                            <div nz-row nzAlign="middle">
+                                <span nz-icon class="inner-icon" nzType="search" nzTheme="outline"></span>
+                                Search
+                            </div>
+                        </button>
+                        <button *nzSpaceItem nz-button [nzType]="'dashed'" (click)="onReset()">
+                            <div nz-row nzAlign="middle">
+                                <span nz-icon class="inner-icon" nzType="clear" nzTheme="outline"></span>
+                                <span>Clear</span>
+                            </div>
+                        </button>
+                    </nz-space>
+                </nz-button-group>
+            </div>
+        </div>
+    </nz-collapse-panel>
+</nz-collapse>
+<nz-divider></nz-divider>
+
+<!-- Button Group -->
+<div *ngIf="isPermitToCreate()" nz-row nzJustify="start">
+    <nz-space>
+        <button *nzSpaceItem nz-button nzSize="default"
+                routerLink="/app/fa-class/add" [nzType]="'primary'">
+            <div nz-row nzAlign="middle">
+                <span class="inner-icon" nz-icon nzType="form" nzTheme="outline"></span>
+                <span>Create</span>
+            </div>
+        </button>
+        <button nzDanger nz-button *nzSpaceItem [nzType]="'primary'"
+                [disabled]="setOfCheckedId.size === 0" (click)="deleteSelectedClasses()">
+            <div nz-row nzAlign="middle">
+                <span class="inner-icon" nz-icon nzType="delete" nzTheme="outline"></span>
+                <span>Delete</span>
+            </div>
+        </button>
+        <span *nzSpaceItem>Selected {{ setOfCheckedId.size }} items</span>
+    </nz-space>
+</div>
+
+<!-- Table Class List -->
+<nz-table nzSize="small" [nzFrontPagination]="false" #basicTable
+          nzShowPagination [nzData]="classList"
+          (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+    <thead>
+    <tr>
+        <th [hidden]="isTrainee()" [nzLeft]="fixedColumn"
+            [nzChecked]="checked" [nzDisabled]="disabledCheckbox" [nzIndeterminate]="indeterminate"
+            (nzCheckedChange)="onAllChecked($event)"></th>
+        <th [nzLeft]="fixedColumn">Class Code</th>
+        <th>Class Type</th>
+        <th>Actual Start Date</th>
+        <th>Actual End Date</th>
+        <th>Location</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of basicTable.data">
+        <td [hidden]="isTrainee()" [hidden]="isTrainee()" [nzLeft]="fixedColumn"
+            [nzChecked]="setOfCheckedId.has(data.id) && data.classStatus === 'DRAFT'"
+            [nzDisabled]="data.classStatus !== 'DRAFT'" (nzCheckedChange)="onItemChecked(data.id, $event)">
+        </td>
+        <td [nzLeft]="fixedColumn" (click)="changeLink(data.id)" class="blue"><span>{{data.classCode}}</span></td>
+        <td>{{data.classType}}</td>
+        <td>{{data.actualStartDate | date : DATE_FORMAT}}</td>
+        <td>{{data.actualEndDate | date : DATE_FORMAT}}</td>
+        <td>{{data.location}}</td>
+        <td>
+            <nz-tag [nzColor]="setStatusType(data.classStatus)">{{data.classStatus}}</nz-tag>
+        </td>
+    </tr>
+    </tbody>
+</nz-table>
+<nz-pagination
+    [nzTotal]="totalElements"
+    [nzPageIndex]="queryParam.page"
+    [nzPageSize]="queryParam.size"
+    (nzPageIndexChange)="onPageChange($event)"
+    (nzPageSizeChange)="onPageSizeChange($event)"
+    [nzShowTotal]="rangeTemplate"
+    nzShowSizeChanger></nz-pagination>
+<ng-template #rangeTemplate let-range="range">Show{{range[0]}} - {{range[1]}} of {{totalElements}} items</ng-template>

@@ -1,0 +1,27 @@
+<div class="login-container" nz-row [nzJustify]="'center'" [nzAlign]="'middle'">
+    <div class="col-md-9 col-lg-6 col-xl-5">
+        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+             class="img-fluid" alt="Sample image">
+    </div>
+    <div nz-col>
+        <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+            <p class="form-title">Welcome</p>
+            <p class="form-title-detail">Login to the Dashboard</p>
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Please input your account!">
+                    <nz-input-group nzPrefixIcon="user">
+                        <input type="text" nz-input formControlName="username" placeholder="Account"/>
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Please input your Password!">
+                    <nz-input-group nzPrefixIcon="lock">
+                        <input type="password" nz-input formControlName="password" placeholder="Password"/>
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Log in</button>
+        </form>
+    </div>
+</div>

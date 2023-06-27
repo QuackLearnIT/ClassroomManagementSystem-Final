@@ -1,0 +1,52 @@
+<h3 nz-row nzAlign="middle" nz-typography><span class="pe-2" nz-icon nzType="user"
+                                                nzTheme="outline"></span>{{traineeDetail.fullName}}</h3>
+<nz-tabset>
+    <nz-tab nzTitle="Trainee Information">
+        <nz-descriptions nzTitle="Personal Information" nzBordered [nzSize]="size"
+                         [nzColumn]="{ xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1 }">
+            <nz-descriptions-item nzTitle="Account">{{ traineeDetail.account }}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Full Name">{{ traineeDetail.fullName }}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Gender">
+                <ng-container [ngSwitch]="traineeDetail.gender">
+                    <div *ngSwitchCase="'MALE'"><span nz-icon nzType="man" nzTheme="outline" class="blue-icon"></span></div>
+                    <div *ngSwitchCase="'FEMALE'"><span nz-icon nzType="woman" nzTheme="outline" class="pink-icon"></span></div>
+                </ng-container>
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Date Of Birth">{{ traineeDetail.dateOfBirth | date: DATE_FORMAT }}
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="University">{{ traineeDetail.universityName }}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Faculty">{{ traineeDetail.facultyName }}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Phone">{{ traineeDetail.phone }}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Email">{{ traineeDetail.email }}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Status">{{ traineeDetail.traineeStatus }}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Salary Paid">
+                {{ traineeDetail.salary == true ? 'Yes' : 'No'}}
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="TPB Account">{{ traineeDetail.tpbAccount }}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Allowance Group">{{ traineeDetail.allowanceGroup }}</nz-descriptions-item>
+            <nz-descriptions-item [nzSpan]="2"
+                                  nzTitle="Commitment">{{ traineeDetail.contractLength == null ? '' : traineeDetail.contractLength + ' months '  }}
+                {{ traineeDetail.contractStartDate != null && traineeDetail.contractLength != null ? ' - ' : '' }}
+                {{traineeDetail.contractStartDate == null ? '' :  traineeDetail.contractStartDate | date: DATE_FORMAT}}
+
+            </nz-descriptions-item>
+        </nz-descriptions>
+        <nz-divider></nz-divider>
+        <nz-button-group *ngIf="isPermitToUpdate()">
+            <nz-space>
+                <button nz-row nzAlign="middle" nzSize="default" [nzGhost]="true" nz-button nzType="primary">
+                    <a routerLink="{{'/app/fa-trainee'}}">
+                        Back
+                    </a>
+                </button>
+                <button nzSize="default" nz-button nzType="primary">
+                    <a routerLink="{{'/app/fa-trainee/update/' + id}}">
+                        Update
+                    </a>
+                </button>
+            </nz-space>
+        </nz-button-group>
+    </nz-tab>
+</nz-tabset>
+
+

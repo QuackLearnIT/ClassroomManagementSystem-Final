@@ -1,0 +1,211 @@
+<h3 nz-row nzAlign="middle" nz-typography><span nz-icon nzType="database" nzTheme="outline" class="pe-2"></span>Trainee
+    Listing</h3>
+<nz-divider></nz-divider>
+<!--Search Group-->
+<nz-collapse [nzBordered]="true" nzExpandIconPosition="right">
+    <nz-collapse-panel [nzActive]="true" nzHeader="Search Area">
+        <div nz-row [nzGutter]="24">
+
+            <!-- Account -->
+            <div nz-col [nzSpan]="8">
+                <nz-form-item>
+                    <nz-form-label>
+                        <span nz-icon class="inner-icon" nzType="user" nzTheme="outline"></span>
+                        Account
+                    </nz-form-label>
+                    <nz-form-control>
+                        <input [(ngModel)]="queryParam.account" nz-input type="text" placeholder="Account">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <!-- Name -->
+            <div nz-col [nzSpan]="8">
+                <nz-form-item>
+                    <nz-form-label>
+                        <span class="inner-icon" nz-icon nzType="contacts" nzTheme="outline"></span>
+                        Name
+                    </nz-form-label>
+                    <nz-form-control>
+                        <input [(ngModel)]="queryParam.fullName" nz-input type="text" placeholder="Full Name">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <!-- Phone -->
+            <div nz-col [nzSpan]="8">
+                <nz-form-item>
+                    <nz-form-label>
+                        <span class="inner-icon" nz-icon nzType="phone" nzTheme="outline"></span>
+                        Phone
+                    </nz-form-label>
+                    <nz-form-control>
+                        <input nz-input type="text" [(ngModel)]="queryParam.phone" placeholder="Phone Number">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="24">
+
+            <!-- E-mail -->
+            <div nz-col [nzSpan]="8">
+                <nz-form-item>
+                    <nz-form-label>
+                        <span class="inner-icon" nz-icon nzType="mail" nzTheme="outline"></span>
+                        E-mail
+                    </nz-form-label>
+                    <nz-form-control>
+                        <input [(ngModel)]="queryParam.email" nz-input type="text" placeholder="Email Address">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <!-- Date Of Birth -->
+            <div nz-col [nzSpan]="8">
+                <nz-form-item>
+                    <nz-form-label>
+                        <span class="inner-icon" nz-icon nzType="calendar" nzTheme="outline"></span>
+                        Date Of Birth
+                    </nz-form-label>
+                    <nz-form-control>
+                        <nz-date-picker class="block" [(ngModel)]="dateOfBirth"
+                                        [nzFormat]="DATE_FORMAT">
+                        </nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <!-- Status -->
+            <div nz-col [nzSpan]="8">
+                <nz-form-item>
+                    <nz-form-label>
+                        <span nz-icon class="inner-icon" nzType="tags" nzTheme="outline"></span>
+                        Status
+                    </nz-form-label>
+                    <nz-form-control>
+                        <nz-select [(ngModel)]="queryParam.traineeStatus" nzAllowClear class="block"
+                                   nzPlaceHolder="Select Status">
+                            <nz-option *ngFor="let status of traineeStatusList | keyvalue"
+                                       [nzValue]="status.key"
+                                       [nzLabel]="status.value">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row [nzGutter]="24">
+
+            <!--Button Group-->
+            <div nz-col [nzSpan]="8">
+                <nz-button-group>
+                    <nz-space>
+                        <button *nzSpaceItem nzSearch nz-button [nzType]="'primary'" (click)="onSearch()">
+                            <div nz-row nzAlign="middle">
+                                <span nz-icon class="inner-icon" nzType="search" nzTheme="outline"></span>
+                                <span>Search</span>
+                            </div>
+                        </button>
+                        <button *nzSpaceItem nz-button [nzType]="'dashed'" (click)="onReset()">
+                            <div nz-row nzAlign="middle">
+                                <span nz-icon class="inner-icon" nzType="clear" nzTheme="outline"></span>
+                                <span>Clear</span>
+                            </div>
+                        </button>
+                    </nz-space>
+                </nz-button-group>
+            </div>
+        </div>
+    </nz-collapse-panel>
+</nz-collapse>
+<nz-divider></nz-divider>
+
+<!-- Button Group -->
+<div *ngIf="isPermitToCreate()" nz-row nzJustify="start">
+    <nz-space>
+        <button nz-button nzSize="default" routerLink="/app/fa-trainee/add" *nzSpaceItem
+                [nzType]="'primary'">
+            <div nz-row nzAlign="middle">
+                <span class="inner-icon" nz-icon nzType="user-add" nzTheme="outline"></span>
+                <span>Create</span>
+            </div>
+        </button>
+        <div *nzSpaceItem>
+            <nz-upload class="file-uploader" nzAction="http://localhost:8888/api/trainee/import"
+                       nzName="file" [nzShowUploadList]="false" [nzBeforeUpload]="beforeUpload"
+                       (nzChange)="handleChange($event)">
+                <ng-container>
+                    <button nz-button>
+                        <div nz-row nzAlign="middle">
+                            <span nz-icon class="inner-icon" nzType="upload"></span>
+                            <span>Import</span>
+                        </div>
+                    </button>
+                </ng-container>
+            </nz-upload>
+        </div>
+        <button *nzSpaceItem nzDanger nz-button [nzType]="'primary'"
+                [disabled]="setOfCheckedId.size === 0" (click)="onDelete()">
+            <div nz-row nzAlign="middle">
+                <span nz-icon class="inner-icon" nzType="user-delete" nzTheme="outline"></span>
+                <span>Delete</span>
+            </div>
+        </button>
+        <span *nzSpaceItem>Selected {{ setOfCheckedId.size }} items</span>
+    </nz-space>
+</div>
+
+<!-- Table Trainee List -->
+<nz-table nzSize="small" [nzFrontPagination]="false" #traineeTable
+          [nzData]="traineeList" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+    <thead>
+    <tr>
+        <th [nzLeft]="fixedColumn"
+            [nzChecked]="checked" [nzDisabled]="disabledCheckbox" [nzIndeterminate]="indeterminate"
+            (nzCheckedChange)="onAllChecked($event)"></th>
+        <th [nzLeft]="fixedColumn">Account</th>
+        <th>Name</th>
+        <th>DOB</th>
+        <th>Gender</th>
+        <th>University</th>
+        <th>Faculty</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let trainee of traineeTable.data">
+        <td [nzLeft]="fixedColumn" [nzChecked]="setOfCheckedId.has(trainee.id) && trainee.traineeStatus === 'DRAFT'"
+            [nzDisabled]="trainee.traineeStatus !== 'DRAFT'" (nzCheckedChange)="onItemChecked(trainee.id, $event)"></td>
+        <td [nzLeft]="fixedColumn"><a routerLink="{{'/app/fa-trainee/' + trainee.id}}">{{trainee.account}}</a></td>
+        <td>{{trainee.fullName}}</td>
+        <td>{{trainee.dateOfBirth | date : DATE_FORMAT}}</td>
+        <td>
+            <ng-container [ngSwitch]="trainee.gender">
+                <div *ngSwitchCase="'MALE'"><span nz-icon nzType="man" nzTheme="outline" nzThemeColor="primary"
+                                                  class="blue-icon"></span></div>
+                <div *ngSwitchCase="'FEMALE'"><span nz-icon nzType="woman" nzTheme="outline" class="pink-icon"></span>
+                </div>
+            </ng-container>
+        </td>
+        <td>{{trainee.university}}</td>
+        <td>{{trainee.faculty}}</td>
+        <td>{{trainee.phone}}</td>
+        <td>{{trainee.email}}</td>
+        <td>
+            <nz-tag [nzColor]="setStatusType(trainee.traineeStatus)">{{trainee.traineeStatus}}</nz-tag>
+        </td>
+    </tr>
+    </tbody>
+</nz-table>
+<nz-pagination [nzTotal]="totalElements"
+               [nzPageIndex]="queryParam.page"
+               [nzPageSize]="queryParam.size"
+               [nzShowTotal]="rangeTemplate"
+               (nzPageIndexChange)="onPageChange($event)"
+               (nzPageSizeChange)="onPageSizeChange($event)"
+               nzShowSizeChanger></nz-pagination>
+<ng-template #rangeTemplate let-range="range">Show {{range[0]}} - {{range[1]}} of {{totalElements}} items</ng-template>

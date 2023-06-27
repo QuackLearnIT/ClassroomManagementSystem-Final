@@ -1,0 +1,31 @@
+<nz-layout class="layout">
+    <nz-sider nz-row nzAlign="middle" nzCollapsible [nzCollapsedWidth]="0">
+        <div class="sidebar-logo">
+            <a target="_blank">
+                <img ngSrc="/assets/FPT_logo_2010.svg.png" alt="logo" height="741" width="1200">
+                <h1>Fsoft Academy</h1>
+            </a>
+        </div>
+        <ul nz-menu nzTheme="dark" nzMode="inline">
+            <li *ngFor="let item of MENU_ITEMS" nz-menu-item nzMatchRouter>
+                <a [routerLink]="item.router">{{item.name}}</a></li>
+        </ul>
+    </nz-sider>
+    <nz-layout>
+        <nz-header  nz-row nzJustify="end" nzAlign="middle">
+            <button nz-button nzType="link" (click)="logout()">
+                <span>Logout</span>
+            </button>
+        </nz-header>
+        <nz-content>
+            <nz-breadcrumb style="margin-left: 1.875rem" [nzAutoGenerate]="true" [nzRouteLabel]="'customBreadcrumb'"
+                           *ngIf="isPermitToUpdate()"></nz-breadcrumb>
+            <nz-breadcrumb style="margin-left: 1.875rem" [nzRouteLabel]="'customBreadcrumb'"
+                           *ngIf="!isPermitToUpdate()"></nz-breadcrumb>
+            <div class="inner-content">
+                <router-outlet></router-outlet>
+            </div>
+        </nz-content>
+        <nz-footer></nz-footer>
+    </nz-layout>
+</nz-layout>

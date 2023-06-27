@@ -1,0 +1,246 @@
+<h3 nz-row nzAlign="middle" nz-typography><span class="inner-icon" nz-icon nzType="user-add" nzTheme="outline"></span>
+    {{ traineeId ? "Update " : "Create " }}Trainee
+</h3>
+<nz-divider nzText="Personal Information"></nz-divider>
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+    <div class="inner-form">
+        <div nz-row [nzGutter]="24">
+            <!-- Name -->
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired>
+                        <span class="inner-icon" nz-icon nzType="contacts" nzTheme="outline"></span>
+                        Name
+                    </nz-form-label>
+                    <nz-form-control nzErrorTip="This field is required!">
+                        <input type="text" nz-input formControlName="fullName" placeholder="Full Name"/>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <!-- Account -->
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired>
+                        <span nz-icon class="inner-icon" nzType="user" nzTheme="outline"></span>
+                        Account
+                    </nz-form-label>
+                    <nz-form-control nzErrorTip="This field is required!">
+                        <input type="text" nz-input formControlName="account" placeholder="Account"/>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="24">
+            <!-- Phone -->
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired>
+                        <span class="inner-icon" nz-icon nzType="phone" nzTheme="outline"></span>
+                        Phone
+                    </nz-form-label>
+                    <nz-form-control nzErrorTip="Phone number is not in the correct format">
+                        <input nz-input formControlName="phone" placeholder="Phone Number"/>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <!-- E-mail -->
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired>
+                        <span class="inner-icon" nz-icon nzType="mail" nzTheme="outline"></span>
+                        E-mail
+                    </nz-form-label>
+                    <nz-form-control nzErrorTip="The input is not valid E-mail!">
+                        <input type="email" nz-input formControlName="email" placeholder="Email Address"/>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="24">
+            <!-- Gender -->
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label nzFor="gender" nzRequired>Gender</nz-form-label>
+                    <nz-form-control nzErrorTip="This field is required!">
+                        <nz-radio-group id="gender" formControlName="gender">
+                            <label nz-radio nzValue="MALE">Male</label>
+                            <label nz-radio nzValue="FEMALE">Female</label>
+                        </nz-radio-group>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <!-- Date Of Birth -->
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired>
+                        <span class="inner-icon" nz-icon nzType="calendar" nzTheme="outline"></span>
+                        Date Of Birth
+                    </nz-form-label>
+                    <nz-form-control nzErrorTip="This field is required!">
+                        <nz-input-group>
+                            <nz-date-picker class="block" [nzFormat]="DATE_FORMAT"
+                                            formControlName="dateOfBirth"></nz-date-picker>
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="24">
+
+            <!-- University -->
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label nzFor="university">
+                        <span nz-icon class="inner-icon" nzType="home" nzTheme="outline"></span>
+                        University
+                    </nz-form-label>
+                    <nz-form-control>
+                        <nz-select id="university" nzShowSearch nzAllowClear nzPlaceHolder="- Select -"
+                                   formControlName="universityId">
+                            <nz-option *ngFor="let u of universityList" [nzLabel]="u.name" [nzValue]="u.id"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <!-- Faculty -->
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label nzFor="faculty">
+                        <span nz-icon class="inner-icon" nzType="read" nzTheme="outline"></span>
+                        Faculty
+                    </nz-form-label>
+                    <nz-form-control>
+                        <nz-select id="faculty" nzShowSearch nzAllowClear nzPlaceHolder="- Select -"
+                                   formControlName="facultyId">
+                            <nz-option *ngFor="let f of facultyList" [nzLabel]="f.name" [nzValue]="f.id"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="24">
+
+            <!-- Status -->
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label>
+                        <span nz-icon class="inner-icon" nzType="tags" nzTheme="outline"></span>
+                        Status
+                    </nz-form-label>
+                    <nz-form-control>
+                        <nz-select nzPlaceHolder="- Select -" formControlName="traineeStatus">
+                            <nz-option *ngFor="let traineeStatus of traineeStatusList | keyvalue"
+                                       [nzValue]="traineeStatus.key"
+                                       [nzLabel]="traineeStatus.value"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <!-- Salary Paid -->
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label nzFor="salary" nzRequired>Salary Paid</nz-form-label>
+                    <nz-form-control nzErrorTip="This field is required!">
+                        <nz-radio-group id="salary" formControlName="salary">
+                            <label nz-radio [nzValue]="true">Yes</label>
+                            <label nz-radio [nzValue]="false">No</label>
+                        </nz-radio-group>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="24">
+
+            <!-- Allowance Group -->
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label>
+                        <span nz-icon class="inner-icon" nzType="paper-clip" nzTheme="outline"></span>
+                        Allowance Group
+                    </nz-form-label>
+                    <nz-form-control>
+                        <nz-select nzPlaceHolder="- Select -" formControlName="allowanceGroup">
+                            <nz-option *ngFor="let allowanceGroup of allowanceGroupList | keyvalue"
+                                       [nzValue]="allowanceGroup.key"
+                                       [nzLabel]="allowanceGroup.value"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <!-- TPB Account -->
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label>
+                        <span nz-icon class="inner-icon" nzType="credit-card" nzTheme="outline"></span>
+                        TPB Account
+                    </nz-form-label>
+                    <nz-form-control>
+                        <input type="text" nz-input formControlName="tpbAccount" placeholder="TPB Account"/>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="24">
+
+            <!-- Committed Working Start Date -->
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label>
+                        <span class="inner-icon" nz-icon nzType="carry-out" nzTheme="outline"></span>
+                        Committed Working Start Date
+                    </nz-form-label>
+                    <nz-form-control>
+                        <nz-date-picker formControlName="contractStartDate"></nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <!-- Committed Working Duration -->
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label>
+                        <span nz-icon class="inner-icon" nzType="solution" nzTheme="outline"></span>
+                        Committed Working Duration
+                    </nz-form-label>
+                    <nz-form-control>
+                        <nz-input-group>
+                            <nz-row>
+                                <nz-col nzSpan="12">
+                                    <nz-slider formControlName="contractLength" [nzMin]="0" [nzMax]="12"
+                                               [nzTipFormatter]="formatter" [(ngModel)]="value"></nz-slider>
+                                </nz-col>
+                                <nz-col>
+                                    <nz-input-number formControlName="contractLength" [nzMin]="0" [nzMax]="12"
+                                                     [ngStyle]="{ marginLeft: '22px' }"
+                                                     [(ngModel)]="value"></nz-input-number>
+                                </nz-col>
+                            </nz-row>
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="24">
+            <div nz-col [nzSpan]="12">
+                <nz-form-control>
+                    <nz-button-group>
+                        <nz-space>
+                            <button nzSize="default" [nzGhost]="true" *nzSpaceItem nz-button nzType="primary">
+                                <a routerLink="{{traineeId? '/app/fa-trainee/' + traineeId: '/app/fa-trainee'}}">Back</a>
+                            </button>
+                            <button nzSize="default" *nzSpaceItem nz-button nzType="primary">Submit</button>
+                        </nz-space>
+                    </nz-button-group>
+                </nz-form-control>
+            </div>
+        </div>
+    </div>
+</form>
+<nz-divider></nz-divider>
+

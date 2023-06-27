@@ -1,0 +1,197 @@
+<h3>Class Detail</h3>
+<hr/>
+
+<nz-tabset>
+    <nz-tab nzTitle="Information">
+        <nz-collapse nzExpandIconPosition="right">
+            <nz-collapse-panel
+                *ngFor="let panel of generalPanels"
+                [nzHeader]="panel.name"
+                [nzActive]="panel.active"
+                [nzDisabled]="panel.disabled"
+            >
+                <div nz-row>
+                    <div nz-col nzSpan="3" class="title">Class code</div>
+                    <div nz-col nzSpan="5" class="data">{{ viewGeneralData.classCode }}</div>
+                    <div nz-col nzSpan="3" class="title">Class Name</div>
+                    <div nz-col nzSpan="5" class="data">{{ viewGeneralData.classType }}</div>
+                    <div nz-col nzSpan="3" class="title">Status</div>
+                    <div nz-col nzSpan="5" class="data">{{ viewGeneralData.classStatus }}</div>
+                </div>
+                <div nz-row>
+                    <div nz-col nzSpan="3" class="title">Planned Trainee No</div>
+                    <div nz-col nzSpan="5" class="data">{{ viewGeneralData.plannedTraineeNo }}</div>
+                    <div nz-col nzSpan="3" class="title">Accepted Trainee No</div>
+                    <div nz-col nzSpan="5" class="data">{{ viewGeneralData.acceptedTraineeNo }}</div>
+                    <div nz-col nzSpan="3" class="title">Actual Trainee No</div>
+                    <div nz-col nzSpan="5" class="data">{{ viewGeneralData.actualTraineeNo }}</div>
+                </div>
+                <div nz-row>
+                    <div nz-col nzSpan="6" class="title">Expected Start Date</div>
+                    <div nz-col nzSpan="6" class="data">{{ viewGeneralData.expectedStartDate | date: DATE_FORMAT}}</div>
+                    <div nz-col nzSpan="6" class="title">Expected End Date</div>
+                    <div nz-col nzSpan="6" class="data">{{ viewGeneralData.expectedEndDate | date: DATE_FORMAT}}</div>
+                </div>
+                <div nz-row>
+                    <div nz-col nzSpan="6" class="title">Location</div>
+                    <div nz-col nzSpan="6" class="data">{{ viewGeneralData.location }}</div>
+                    <div nz-col nzSpan="6" class="title">Detailed Location</div>
+                    <div nz-col nzSpan="6" class="data">{{ viewGeneralData.detailLocation }}</div>
+                </div>
+                <div nz-row>
+                    <div nz-col nzSpan="6" class="title">Budget Code</div>
+                    <div nz-col nzSpan="6" class="data">{{ viewGeneralData.budgetCode }}</div>
+                    <div nz-col nzSpan="6" class="title">Estimated Budget</div>
+                    <div nz-col nzSpan="6" class="data">{{ viewGeneralData.estimatedBudget | currency :'VND' :true: '1.0-3' }}</div>
+                </div>
+                <div nz-row>
+                    <div nz-col nzSpan="6" class="title">Class Admin</div>
+                    <div nz-col nzSpan="6" class="data">{{ viewGeneralData.classAdmin }}</div>
+
+                    <div nz-col nzSpan="6" class="title">Learning Path</div>
+                    <div nz-col nzSpan="6" class="data">
+                        <a [href]="viewGeneralData.learningPath"
+                           download>{{fileName}}</a>
+                    </div>
+                </div>
+            </nz-collapse-panel>
+        </nz-collapse>
+
+        <nz-collapse nzExpandIconPosition="right">
+            <nz-collapse-panel
+                *ngFor="let panel of detailPanels"
+                [nzHeader]="panel.name"
+                [nzActive]="panel.active"
+                [nzDisabled]="panel.disabled"
+            >
+                <div nz-row>
+                    <div nz-col nzSpan="3" class="title">Subject Type</div>
+                    <div nz-col nzSpan="5" class="data">{{ viewDetailData.subjectType }}</div>
+                    <div nz-col nzSpan="3" class="title">Sub-Subject Type</div>
+                    <div nz-col nzSpan="5" class="data">{{ viewDetailData.subSubjectType }}</div>
+                    <div nz-col nzSpan="3" class="title">Delivery Type</div>
+                    <div nz-col nzSpan="5" class="data">{{ viewDetailData.deliveryType }}</div>
+                </div>
+                <div nz-row>
+                    <div nz-col nzSpan="3" class="title">Format Type</div>
+                    <div nz-col nzSpan="5" class="data">{{ viewDetailData.formatType }}</div>
+                    <div nz-col nzSpan="3" class="title">Scope</div>
+                    <div nz-col nzSpan="5" class="data">{{ viewDetailData.scope }}</div>
+                    <div nz-col nzSpan="3" class="title">Supplier</div>
+                    <div nz-col nzSpan="5" class="data">{{ viewDetailData.supplier }}</div>
+                </div>
+                <div nz-row>
+                    <div nz-col nzSpan="6" class="title">Actual Start Date</div>
+                    <div nz-col nzSpan="6" class="data">{{ viewDetailData.actualStartDate }}</div>
+                    <div nz-col nzSpan="6" class="title">Actual End Date</div>
+                    <div nz-col nzSpan="6" class="data">{{ viewDetailData.actualEndDate }}</div>
+                </div>
+                <div nz-row>
+                    <div nz-col nzSpan="6" class="title">Master Trainer</div>
+                    <div nz-col nzSpan="6" class="data">{{ viewDetailData.masterTrainer }}</div>
+                    <div nz-col nzSpan="6" class="title">Trainer</div>
+                    <div nz-col nzSpan="6" class="data">{{ viewDetailData.trainer }}</div>
+                </div>
+                <div nz-row>
+                    <div nz-col nzSpan="6" class="title">Curriculum</div>
+                    <div nz-col nzSpan="6" class="data">
+                        <a [href]="viewDetailData.curriculum"
+                           download>{{fileCurriculum}}</a>
+                    </div>
+                    <div nz-col nzSpan="6" class="title">Remarks</div>
+                    <div nz-col nzSpan="6" class="data">{{ viewDetailData.remarks }}</div>
+                </div>
+            </nz-collapse-panel>
+        </nz-collapse>
+
+        <nz-collapse nzExpandIconPosition="right">
+            <nz-collapse-panel
+                *ngFor="let panel of budgetPanels"
+                [nzHeader]="panel.name"
+                [nzActive]="panel.active"
+                [nzDisabled]="panel.disabled"
+            >
+                <div nz-row>
+                    <div nz-col nzSpan="6" class="title">Total</div>
+                    <div nz-col nzSpan="6" class="data">{{calculateTotal()}}</div>
+                    <div nz-col nzSpan="6" class="title">Over Budget</div>
+                    <div nz-col nzSpan="6" class="data">{{isOverBudget()}}</div>
+                </div>
+                <div nz-row>
+                    <div nz-col nzSpan="3" class="title">Item</div>
+                    <div nz-col nzSpan="3" class="title">Unit</div>
+                    <div nz-col nzSpan="3" class="title">Unit Expense</div>
+                    <div nz-col nzSpan="3" class="title">Quantity</div>
+                    <div nz-col nzSpan="3" class="title">Amount</div>
+                    <div nz-col nzSpan="3" class="title">Tax (%)</div>
+                    <div nz-col nzSpan="3" class="title">Sum</div>
+                    <div nz-col nzSpan="3" class="title">Note</div>
+                </div>
+                <div nz-row *ngFor="let data of viewBudgetData">
+                    <div nz-col nzSpan="3" class="data">{{ data.item }}</div>
+                    <div nz-col nzSpan="3" class="data">{{ data.unit }}</div>
+                    <div nz-col nzSpan="3" class="data">{{ data.unitExpense }}</div>
+                    <div nz-col nzSpan="3" class="data">{{ data.quantity }}</div>
+                    <div nz-col nzSpan="3" class="data">{{ calculateAmount(data.unitExpense, data.quantity) }}</div>
+                    <div nz-col nzSpan="3" class="data">{{ data.tax }}</div>
+                    <div nz-col nzSpan="3"
+                         class="data">{{calculateSum(data.unitExpense, data.quantity, data.tax)}}</div>
+                    <div nz-col nzSpan="3" class="data">{{ data.note }}</div>
+                </div>
+            </nz-collapse-panel>
+        </nz-collapse>
+
+        <nz-collapse nzExpandIconPosition="right">
+            <nz-collapse-panel
+                *ngFor="let panel of auditPanels"
+                [nzHeader]="panel.name"
+                [nzActive]="panel.active"
+                [nzDisabled]="panel.disabled"
+            >
+                <div nz-row>
+                    <div nz-col nzSpan="3" class="title">Date</div>
+                    <div nz-col nzSpan="3" class="title">Event Category</div>
+                    <div nz-col nzSpan="3" class="title">Related People</div>
+                    <div nz-col nzSpan="3" class="title">Action</div>
+                    <div nz-col nzSpan="3" class="title">PIC</div>
+                    <div nz-col nzSpan="3" class="title">Dead line</div>
+                    <div nz-col nzSpan="6" class="title">Note</div>
+                </div>
+
+                <div nz-row *ngFor="let data of viewAuditData">
+                    <div nz-col nzSpan="3" class="data">{{ data.auditDate }}</div>
+                    <div nz-col nzSpan="3" class="data">{{ data.eventCategory }}</div>
+                    <div nz-col nzSpan="3" class="data">{{ data.relatedPeople }}</div>
+                    <div nz-col nzSpan="3" class="data">{{ data.action }}</div>
+                    <div nz-col nzSpan="3" class="data">{{ data.pic }}</div>
+                    <div nz-col nzSpan="3" class="data">{{ data.deadLine }}</div>
+                    <div nz-col nzSpan="6" class="data">{{ data.note }}</div>
+
+                </div>
+            </nz-collapse-panel>
+        </nz-collapse>
+        <nz-divider></nz-divider>
+        <nz-button-group *ngIf="isPermitToUpdate()">
+            <nz-space>
+                <button *nzSpaceItem nz-row nzAlign="middle" nzSize="default" [nzGhost]="true" nz-button
+                        nzType="primary">
+                    <a routerLink="{{'/app/fa-class'}}">
+                        Back
+                    </a>
+                </button>
+                <div *nzSpaceItem>
+                    <button nz-button *ngIf="isPermitToUpdate()" (click)="changeLink(viewGeneralData.id)"
+                            [nzType]="'primary'">Update
+                    </button>
+                </div>
+            </nz-space>
+        </nz-button-group>
+
+    </nz-tab>
+    <nz-tab nzTitle="Trainee">
+        <app-fa-trainee-in-class>
+        </app-fa-trainee-in-class>
+    </nz-tab>
+</nz-tabset>
+
+
